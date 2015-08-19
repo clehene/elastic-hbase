@@ -9,8 +9,8 @@ RUN \
 RUN yum -y install tar
 
 RUN \
-  curl -O http://www.interior-dsgn.com/apache/hbase/hbase-1.0.0/hbase-1.0.0-bin.tar.gz && \
-  tar -xzf  hbase-1.0.0-bin.tar.gz
+  curl -O http://apache.mirrors.lucidnetworks.net/hbase/1.0.1.1/hbase-1.0.1.1-bin.tar.gz && \
+  tar -xzf  hbase-1.0.1.1-bin.tar.gz
 
 RUN \
   adduser --uid 3434 hadoop &&\
