@@ -1,12 +1,16 @@
 {
     "id": "/cell-os/hbase-1/master", 
-    "cmd": "su hadoop -c \"curl -vvv -o /hbase/conf/hdfs-site.xml http://HDFS_NAMENODE:50070/conf && /hbase/bin/hbase master -Dhbase.master.info.port=$PORT0 -Dhbase.rootdir='hdfs://HDFS_NAMESPACE_ID/hbase-1' -Dhbase.zookeeper.quorum=ZK_QUORUM -D zookeeper.znode.parent=/hbase-1  start\"",
+    "cmd": "su hadoop -c \"/entrypoint.sh && curl -vvv -o /hbase/conf/hdfs-site.xml http://{{HDFS_NAMENODE_HOST}}/conf && /hbase/bin/hbase master -Dhbase.master.info.port=$PORT0 -Dhbase.rootdir='hdfs://{{HDFS_NAMESPACE_ID}}/hbase-1' -Dhbase.zookeeper.quorum={{ZK_QUORUM}} -D zookeeper.znode.parent=/hbase-1  start\"",
     "container": {
         "docker": {
-            "image": "cellos/hbase:1.0.0"
+            "image": "andreifecioru/alpine-hbase:1.2.0"
         },
         "type": "DOCKER",
         "volumes": []
+    },
+    "env": {
+      "ZK_QUORUM": "{{ZK_QUORUM}}",
+      "HDFS_NAMESPACE_ID": "{{HDFS_NAMESPACE_ID}}"
     },
     "cpus": 2,
     "mem": 4000.0,
