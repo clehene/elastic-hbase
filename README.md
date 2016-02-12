@@ -9,17 +9,12 @@ HBase runs in a Docker container
 
 The Marathon application manifests is used to push the environment configuration 
 
-STEP 1: fill-in the `marathon/config.json` with your configuration data
+    curl -X POST -H "Content-Type: application/json" \
+    http://MARATHON_HOST/v2/apps\
+    -d@marathon/hbase-regionserver.json
 
-STEP 2: upload the application manifests:
 
-    mustache config.json hbase-regionerver.json > payload.json && \
-      curl -X POST -H "Content-Type: application/json" \
-      http://MARATHON_HOST/v2/apps \
-      -d@payload.json
- 
-    mustache config.json hbase-master.json > payload.json && \
-      curl -X POST -H "Content-Type: application/json" \
-      http://MARATHON_HOST/v2/apps \
-      -d@payload.json  
+    curl -X POST -H "Content-Type: application/json" \
+    http://MARATHON_HOST/v2/apps\
+    -d@marathon/hbase-master.json
 

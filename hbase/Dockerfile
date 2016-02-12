@@ -1,16 +1,22 @@
-FROM andreifecioru/alpine-java:jdk8
+FROM anapsix/alpine-java:jdk8
 
-ADD ./hbase-1.2.0-hadoop2-adobe-SNAPSHOT-bin.tar.gz .
-RUN rm -f hbase-1.2.0-hadoop2-adobe-SNAPSHOT-bin.tar.gz
+ARG HBASE_DOWNLOAD_URL
+
+RUN apk add --update --no-cache curl
 
 RUN \
+  apk add --update --no-cache curl && \
+  curl -o hbase.tar.gz $HBASE_DOWNLOAD_URL && \
+  tar -xzf hbase.tar.gz && \
   adduser -D -u 3434 hadoop &&\
   mkdir -p /var/log/hbase && \
-  ln -s /hbase-1.2.0-hadoop2-adobe-SNAPSHOT /hbase
+  ln -sf $(ls -d */ | grep hbase) /hbase && \
+  rm -f /hbase.tar.gz && \
+  rm -rf /hbase/docs
 
 ADD ./hbase-site.xml /hbase/conf/
 
-RUN chown -R hadoop:hadoop /hbase-1.2.0-hadoop2-adobe-SNAPSHOT /hbase /var/log/hbase
+RUN chown -R hadoop:hadoop $(ls -d */ | grep hbase) /hbase /var/log/hbase
 
 
 # hbase.master.info.port
@@ -28,4 +34,5 @@ COPY docker-entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
+
 
