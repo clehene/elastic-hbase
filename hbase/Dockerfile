@@ -2,7 +2,7 @@ FROM anapsix/alpine-java:jdk8
 
 ARG HBASE_DOWNLOAD_URL
 
-RUN apk add --update --no-cache curl
+ADD ./hbase-site.xml /
 
 RUN \
   apk add --update --no-cache curl && \
@@ -12,11 +12,9 @@ RUN \
   mkdir -p /var/log/hbase && \
   ln -sf $(ls -d */ | grep hbase) /hbase && \
   rm -f /hbase.tar.gz && \
-  rm -rf /hbase/docs
-
-ADD ./hbase-site.xml /hbase/conf/
-
-RUN chown -R hadoop:hadoop $(ls -d */ | grep hbase) /hbase /var/log/hbase
+  rm -rf /hbase/docs && \
+  mv /hbase-site.xml /hbase/conf && \
+  chown -R hadoop:hadoop $(ls -d */ | grep hbase) /hbase /var/log/hbase
 
 
 # hbase.master.info.port

@@ -6,13 +6,20 @@ if [ -z "$ZK_QUORUM" ]; then
   exit 1
 fi
 
+if [ -z "$HDFS_NAMENODE_HOST" ]; then
+  echo >&2 'You need to specify HDFS_NAMENODE_HOST environment var.'
+  exit 1
+fi
+
 if [ -z "$HDFS_NAMESPACE_ID" ]; then
   echo >&2 'You need to specify HDFS_NAMESPACE_ID environment var.'
   exit 1
 fi
 
-sed -ie "s/ZK_QUORUM/$ZK_QUORUM/g"  /hbase/conf/hbase-site.xml
-sed -ie "s/HDFS_NAMESPACE_ID/$HDFS_NAMESPACE_ID/g"  /hbase/conf/hbase-site.xml
+if [ -z "$HBASE_NAMESPACE_ID" ]; then
+  echo >&2 'You need to specify HBASE_NAMESPACE_ID environment var.'
+  exit 1
+fi
 
 exec "$@"
 
