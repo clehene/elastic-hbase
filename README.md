@@ -20,5 +20,3 @@ The Marathon application manifests is used to push the environment configuration
     http://MARATHON_HOST/v2/apps\
     -d@marathon/hbase-master.json
 
-
-
